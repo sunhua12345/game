@@ -5,14 +5,18 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
+import sun.game.common.config.Config;
+
 public abstract class DynamicFind implements Find {
 	private static Set<Class<?>> clazzs = new HashSet<Class<?>>();
 
 	public void find() throws Exception {
 		if (clazzs.isEmpty()) {
-			clazzs = PackageScanner.scanPackages("sun.game");
-			for (Class<?> class1 : clazzs)
-				System.out.println("扫描sun/game/包下:" + class1);
+			clazzs = PackageScanner.scanPackages(Config.getConfig().PACKAGE_SCAN_PATH);
+			String str = Config.getConfig().PACKAGE_SCAN_PATH.replace(".", "/");
+			for (Class<?> class1 : clazzs) {
+				System.out.println("扫描" + str + "包下:" + class1);
+			}
 		}
 		for (Class<?> clz : clazzs) {
 			findOne(clz);
